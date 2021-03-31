@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+</head>
+<body>
+
+<h1>This is a Heading</h1>
+<p>This is a paragraph.</p>
+
+{% comment %} <form action="" method="post">
+    {%csrf_token%}
+  <label for="first_name">First name:</label><t>
+  <input required type="text" id="first_name" name="first_name"><br>
+
+  <label for="last_name">Last name:</label><t>
+  <input required  type="text" id="last_name" name="last_name"><br>
+
+  <label for="address">address:</label><t>
+  <input required  type="text" id="address" name="address"><br>
+
+  <label for="age">Age:</label><t>
+  <input required  type="number" id="age" name="age"><br>
+  <input   type="submit" value="Add">
+</form>
+
+<hr>
+<h1> Form cua ModelForm  </h1>
+<h3> Form as the p </h3>
+{{form.as_p}}
+<h3> Form as the list </h3>
+<ol>
+    {{form.as_ul}}
+</ol> {% endcomment %}
+<h3> Form as table </h3>
+<form action="" method="post">
+{%csrf_token%}
+
+<table>
+    {{form.as_table}}
+</table>
+<input  type="submit" value="Add">
+</form>
+<script>
+    $("#id_first_name").change(function(event){
+        $.ajax({
+            type: 'POST',
+            url:    "{%url 'add_student' %}",
+            data: {
+                first_name: $(this).val(),
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            success: function(response){
+                alert(response['info'])
+            },
+            error: function(response){
+                alert(response['info'])
+            },
+
+        })
+    })
+</script>
+</body>
+</html>

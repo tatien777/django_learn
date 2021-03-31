@@ -1,0 +1,22 @@
+<!--app/templates/index.html-->
+<meta charset="UTF-8">
+<html>
+   <body>
+   Home page
+   </body>
+   
+   <a href="{%url 'register' %}" >  Register </a>
+   <h3> Heloo {{class_name}}  </h3>
+   <ul>
+      {% for student in students %}
+         <li> {{student}} </li>
+      {% endfor %}
+   </ul>
+   {% if not productList %}
+      <p> Ban khong co san pham nao </p>
+   {% else %}
+      {% for product in productList %}
+         <li> {{product}} </li>
+      {% endfor %}
+   {% endif %}
+</html>
