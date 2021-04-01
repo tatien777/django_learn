@@ -14,6 +14,10 @@ urlpatterns = [
     path('delete/<int:student_id>',view=views.delete_student,name="delete_student"),
     url(r'^add_student/$',view=views.add_student,name="add_student"),
     url(r'^create_course/$',view=views.create_course,name="create_course"),
+    url(r'^view_course/$',view=views.view_course,name="view_course"),
+
+    path('view_course/<c_code>',view=views.view_course,name="view_course"),
+    path('edit_course/<code>',view=views.edit_course,name="edit_course"),
 ]
 
 

@@ -1,6 +1,8 @@
 import os 
 import django
 
+
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE","testprj.settings")
 django.setup()
 
@@ -25,13 +27,23 @@ print("SETUP success")
 # print("*"*20)
 
 
-from myapp.models import Place, Restaurant, Waiter
+# from myapp.models import Place, Restaurant, Waiter
 
-place = Place.objects.get(id=1)
-res = Restaurant.objects.get(pk=1) 
+# place = Place.objects.get(id=1)
+# res = Restaurant.objects.get(pk=1) 
 
-w1 = Waiter(restaurant=res,name="Waiter1")
-w1.save()
-print(w1)
+# w1 = Waiter(restaurant=res,name="Waiter1")
+# w1.save()
+# print(w1)
+
+
+from myapp.models import Student,Courses
+
+c1 = Courses.objects.all()
+print(c1)
+# s1 = Student.objects.get(id=4)
+# print(s1)
+# c1.c_num.add(s1.id)
+# c1.save()
 
 

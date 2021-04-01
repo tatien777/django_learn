@@ -153,10 +153,33 @@ def create_course(request):
             duration=duration,
             begin_date=begin_date,
         )
-        return redirect('create_course')
+        return redirect('view_course')
     return render(
         request=request,
         template_name='create_course.html',
         context = {'form': form}
+
+    ) 
+# READ COURSE AND STUDENT 
+def view_course(request):
+    
+    courses = Courses.objects.all()
+    print(courses)
+    return render(
+        request=request,
+        template_name='view_course.html',
+        context = {'courses': courses}
+
+    ) 
+# UPDATE COURSE  
+def edit_course(request,code):
+    course = Courses.objects.get(c_code=code)
+    print(course)
+    return render(
+        request=request,
+        template_name='edit_course.html',
+        context = {
+            # 'course': course,
+        }
 
     ) 

@@ -1,0 +1,30 @@
+
+<style>
+    table,th,tr,td{
+        border: 1px solid black;
+    }
+</style> 
+<table style="width:100%">
+    <tr>
+        <th>code</th>
+        <th>course name</th>
+        <th>duration</th>
+        <th>c_num</th>
+        <th>begin_date</th>
+        <th><a href="{% url 'create_course' %}" >  ADD COURSES </a></th>
+    </tr>
+    {% for course in courses %}
+        <tr>
+            <td>{{course.c_code}}</td>
+            <td>{{course.c_name}}</td>
+            <td>{{course.duration}}</td>
+            <td>{{course.c_num}}</td>
+            <td>{{course.begin_date}}</td>
+             <td>
+                <a href="/myapp/view_course/{{course.c_code}}"> View </a>
+                <a href="{% url 'edit_course' code=course.c_code%}"> Edit </a> 
+                {% comment %} <a href="{% url 'delete_student' student_id=student.id%}"> Delete </a> {% endcomment %}
+            </td> 
+        </tr>
+    {% endfor %}
+</table>

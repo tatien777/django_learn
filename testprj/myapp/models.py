@@ -83,4 +83,4 @@ class Courses(models.Model):
     class Meta:
         db_table = "Courses"
     def __str__(self):
-        return '{}-{}'.format(self.name, self.age)
+        return '{}-{}-{}-{}-{}'.format(self.c_code, self.c_name,self.duration, self.c_num,self.begin_date)
