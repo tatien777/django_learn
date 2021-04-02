@@ -164,7 +164,7 @@ def create_course(request):
 def view_course(request):
     
     courses = Courses.objects.all()
-    print(courses)
+    print(courses[0].c_num)
     return render(
         request=request,
         template_name='view_course.html',
@@ -174,12 +174,28 @@ def view_course(request):
 # UPDATE COURSE  
 def edit_course(request,code):
     course = Courses.objects.get(c_code=code)
-    print(course)
+    # print("code he thog",code)
+    print("code query",course.begin_date)
+    if request.method == 'POST':
+        c_name = request.POST.get('c_name')
+        duration = request.POST.get('duration')
+        begin_date = request.POST.get('begin_date')
+        print("***",c_name,duration,begin_date)
+        course.c_name = c_name
+        course.duration = duration
+        course.begin_date = begin_date
+        course.save()
     return render(
         request=request,
         template_name='edit_course.html',
         context = {
-            # 'course': course,
+            'course': course,
         }
 
     ) 
+
+#DELETE
+def delete_course(request,code):
+    course = get_object_or_404(Courses,c_code=code)
+    course.delete()
+    return redirect('view_course')

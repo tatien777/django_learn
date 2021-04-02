@@ -18,6 +18,7 @@ urlpatterns = [
 
     path('view_course/<c_code>',view=views.view_course,name="view_course"),
     path('edit_course/<code>',view=views.edit_course,name="edit_course"),
+    path('delete_code/<code>',view=views.delete_course,name="delete_course"),
 ]
 
 

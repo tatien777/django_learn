@@ -3,22 +3,42 @@
 <head>
     <title>Edit Course</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
 
-<form action="" method="post">
+<h1>  {{course.c_code}} </h1>
+
+{% comment %} <form action="" method="post">
     {%csrf_token%}
-
-  <input required type="text" id="c_code" name="c_code" value="{{course.c_code}}"><br >
-
-  
   <input required  type="text" id="c_name" name="c_name" value="{{course.c_name}}"><br> 
 
   <input required  type="number" id="duration" name="duration" value="{{course.duration}}"><br>
 
-  <input required  type="date" id="begin_date" name="begin_date" value="{{course.begin_date}}"><br> 
+  <input required pattern="^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$"  type="date" id="begin_date" name="begin_date" value="{{course.begin_date}}"><br> 
   <input   type="submit" value="Edit">
+</form>  {% endcomment %}
+<form action="" method="post">
+    {%csrf_token%}
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Course name</label>
+    <input required  type="text" id="c_name" name="c_name" value="{{course.c_name}}">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Duration</label>
+    <input required  type="number" id="duration" name="duration" value="{{course.duration}}">
+  </div>
+    <div class="form-group"> <!-- Date input -->
+    <label class="control-label" for="date">Date</label>
+    <input required pattern="^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$"  type="date" id="begin_date" name="begin_date" value="{{course.begin_date}}" placeholder="yyyy-mm-dd"/>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html> 

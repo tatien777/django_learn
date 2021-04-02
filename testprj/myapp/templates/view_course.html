@@ -18,12 +18,16 @@
             <td>{{course.c_code}}</td>
             <td>{{course.c_name}}</td>
             <td>{{course.duration}}</td>
-            <td>{{course.c_num}}</td>
+            {% if  course.c_num in 'myapp.Student.None' %}
+                <td> No students </td>
+            {% else %}
+                <td> {{course.c_num}}</td>
+            {% endif %}
             <td>{{course.begin_date}}</td>
              <td>
                 <a href="/myapp/view_course/{{course.c_code}}"> View </a>
                 <a href="{% url 'edit_course' code=course.c_code%}"> Edit </a> 
-                {% comment %} <a href="{% url 'delete_student' student_id=student.id%}"> Delete </a> {% endcomment %}
+                <a href="{% url 'delete_course' code=course.c_code%}"> Delete </a> 
             </td> 
         </tr>
     {% endfor %}
