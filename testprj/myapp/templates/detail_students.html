@@ -1,0 +1,30 @@
+
+<style>
+    table,th,tr,td{
+        border: 1px solid black;
+    }
+</style> 
+<table style="width:100%">
+    <tr>
+        <th>Id</th>
+        <th>Last Name</th>
+        <th>First Name</th>
+        <th>Address</th>
+        <th>Age</th>
+        <th> Time <th>
+        {% comment %} <th><a href="{% url 'add_student' %}" >  ADD STUDENTS </a></th> {% endcomment %}
+    </tr>
+        <tr>
+            <td>{{object.id}}</td>
+            <td>{{object.last_name}}</td>
+            <td>{{object.first_name}}</td>
+            <td>{{object.age}}</td>
+            <td>{{object.address}}</td>
+            <td> {{now}} </td>
+            {% comment %} <td>
+                <a href="/myapp/student/{{student.id}}"> View </a>
+                <a href="{% url 'edit_student' student_id=student.id%}"> Edit </a>
+                <a href="{% url 'delete_student' student_id=student.id%}"> Delete </a>
+            </td> {% endcomment %}
+        </tr>
+</table>

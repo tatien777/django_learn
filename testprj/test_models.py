@@ -41,9 +41,9 @@ from myapp.models import Student,Courses
 
 c1 = Courses.objects.all()
 print(c1)
-# s1 = Student.objects.get(id=4)
-# print(s1)
-# c1.c_num.add(s1.id)
-# c1.save()
+s1 = Student.objects.get(id=4)
+print(s1)
+c1.c_num.add(s1.id)
+c1.save()
 
 

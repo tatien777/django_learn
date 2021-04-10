@@ -18,17 +18,17 @@
                <nav class="navbar navbar-expand-lg navbar-light bg-light">
                   
                <div class="container-fluid">
-                  <a class="navbar-brand" href={% url 'index' %} > Python2011 </a>
+                  <a class="navbar-brand" href="#" > Python2011 </a>
                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                      <span class="navbar-toggler-icon"></span>
                   </button>
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                     {% comment %} <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                     </li>                  {% endcomment %}
                      <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
-                     </li>                 
-                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'index_one2one'%}">ONETOONE</a>
+                        <a class="nav-link active" aria-current="page" href="{% url 'index_one2one'%}">ONETOONE</a>
                      </li>
                      <li class="nav-item">
                         <a class="nav-link" href="{% url 'index_one2many'%}" >ONETOMANY</a>
@@ -47,6 +47,27 @@
             </div>
       </div>
     </div>
+
+    <div class="container">
+      <div class="row"> 
+         <thead>
+         <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+         </tr>
+         </thead>
+         <tbody>
+            {% for place in places %}
+            <tr>
+               <th scope="row">1</th>
+               <td>{{place.name}}</td>
+               <td>{{place.address}}</td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </div>
+     </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
