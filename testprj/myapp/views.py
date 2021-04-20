@@ -158,38 +158,60 @@ def login(req):
 
 
 ##### ADD VIEW ##### 
+
 from django.views import View 
 from django.views.generic import ListView
+
+from django.core.paginator import Paginator
+
+def all_students(request):
+    students = Student.objects.all()
+    first_name = request.GET.get('first_name')
+    if first_name:
+        students = students.filter(first_name__contains=first_name)
+
+
+    paginator = Paginator(students,3)
+    page_num = request.GET.get('page')
+    page_obj = paginator.get_page(page_num)
+
+    return render(
+        request=request,
+        template_name='test_students.html',
+        context={
+            'page_obj': page_obj,
+            'students':students,
+        }
+        )
+
+
 class StudentListView(ListView):
     model = Student
     template_name = 'list_students.html'
     form = StudentForm()
-    # def get_context_data(self,*args,**kwargs):
-    #     context = super().get_context_data(*args,**kwargs)
-    #     context['form'] = form
-    #     return context
+    paginate_by = 3 #so luong itme muon hien thi
 
-    # addcacs method get/post/put/patch/delete/head
-    # def get(self,request,*args,**kwargs):
-    #     return render(
-    #     request = request,
-    #     template_name = 'python.html',
-    #     )
-    # def post(self,request,*args,**kwargs):
-    #     return render(
-    #     request = request,
-    #     template_name = 'python.html',
-    #     )
+
 ## detail view
 from django.views.generic.detail import DetailView
 from django.utils import timezone
+
 class StudentDetailView(DetailView):
     model = Student
     template_name = 'detail_students.html'
+    
+    def get_queryset(self,model=model):
+        first_name = self.kwargs.get('first_name', None)
+        object_list = model.objects.all()
+        if first_name:
+            object_list = object_list.filter(first_name__icontains=first_name)
+        return object_list
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         context['now'] = timezone.now()
         return context
+
+
 ## Create View ## 
 from django.views.generic.edit import CreateView
 class StudentCreateView(CreateView):
@@ -197,23 +219,9 @@ class StudentCreateView(CreateView):
     fields = '__all__'
     template_name = 'create_student.html'
     success_url =  '/student'
-    # if  request.method == 'POST':
-    #     if form.is_valid(): 
-    #         data = form.cleaned_data
-    #         first_name = data.get('first_name')
-    #         last_name = data.get('last_name')
-    #         address = data.get('address')
-    #         age = data.get('age')
-    #         Student.objects.create(
-    #             first_name=first_name,
-    #             last_name=last_name,
-    #             age=age,
-    #             address=address,
-    #         )
-    #     redirect('list_students.html')
 
 
-## Create View ## 
+## Update View ## 
 from django.views.generic.edit import UpdateView
 class StudentUpdateView(UpdateView):
     model = Student
@@ -235,65 +243,109 @@ class StudentDeleteView(DeleteView):
 
 
 # CREATE 
-def create_course(request):
-    form = CourseForm()
-    form_request = CourseForm(request.POST)
-    if form_request.is_valid():
-        data = form_request.cleaned_data
-        c_code = data['c_code']
-        c_name = data['c_name']
-        duration = data['duration']
-        begin_date = data['begin_date']
-        print("data",c_code,c_name,duration,begin_date)
-        Courses.objects.create(
-            c_code=c_code,
-            c_name=c_name,
-            duration=duration,
-            begin_date=begin_date,
-        )
-        return redirect('view_course')
-    return render(
-        request=request,
-        template_name='create_course.html',
-        context = {'form': form}
+# def create_course(request):
+#     form = CourseForm()
+#     form_request = CourseForm(request.POST)
+#     if form_request.is_valid():
+#         data = form_request.cleaned_data
+#         c_code = data['c_code']
+#         c_name = data['c_name']
+#         duration = data['duration']
+#         begin_date = data['begin_date']
+#         print("data",c_code,c_name,duration,begin_date)
+#         Courses.objects.create(
+#             c_code=c_code,
+#             c_name=c_name,
+#             duration=duration,
+#             begin_date=begin_date,
+#         )
+#         return redirect('view_course')
+#     return render(
+#         request=request,
+#         template_name='create_course.html',
+#         context = {'form': form}
 
-    ) 
-# READ COURSE AND STUDENT 
-def view_course(request):
+#     ) 
+# # READ COURSE AND STUDENT 
+# def view_course(request):
     
-    courses = Courses.objects.all()
-    print(courses[0].c_num)
-    return render(
-        request=request,
-        template_name='view_course.html',
-        context = {'courses': courses}
+#     courses = Courses.objects.all()
+#     print(courses[0].c_num)
+#     return render(
+#         request=request,
+#         template_name='view_course.html',
+#         context = {'courses': courses}
 
-    ) 
-# UPDATE COURSE  
-def edit_course(request,code):
-    course = Courses.objects.get(c_code=code)
-    # print("code he thog",code)
-    print("code query",course.begin_date)
-    if request.method == 'POST':
-        c_name = request.POST.get('c_name')
-        duration = request.POST.get('duration')
-        begin_date = request.POST.get('begin_date')
-        print("***",c_name,duration,begin_date)
-        course.c_name = c_name
-        course.duration = duration
-        course.begin_date = begin_date
-        course.save()
-    return render(
-        request=request,
-        template_name='edit_course.html',
-        context = {
-            'course': course,
-        }
+#     ) 
+# # UPDATE COURSE  
+# def edit_course(request,code):
+#     course = Courses.objects.get(c_code=code)
+#     # print("code he thog",code)
+#     print("code query",course.begin_date)
+#     if request.method == 'POST':
+#         c_name = request.POST.get('c_name')
+#         duration = request.POST.get('duration')
+#         begin_date = request.POST.get('begin_date')
+#         print("***",c_name,duration,begin_date)
+#         course.c_name = c_name
+#         course.duration = duration
+#         course.begin_date = begin_date
+#         course.save()
+#     return render(
+#         request=request,
+#         template_name='edit_course.html',
+#         context = {
+#             'course': course,
+#         }
 
-    ) 
+#     ) 
 
-#DELETE
-def delete_course(request,code):
-    course = get_object_or_404(Courses,c_code=code)
-    course.delete()
-    return redirect('view_course')
+# #DELETE
+# def delete_course(request,code):
+#     course = get_object_or_404(Courses,c_code=code)
+#     course.delete()
+#     return redirect('view_course')
+
+class CourseListView(ListView):
+    model = Courses
+    template_name = 'list_courses.html'
+    # form = CourseForm()
+    paginate_by = 2 #so luong itme muon hien thi
+
+
+class CourseDetailView(DetailView):
+    model = Courses
+    template_name = 'detail_course.html'
+    
+    def get_queryset(self,model=model):
+        c_code = self.kwargs.get('c_code', None)
+        object_list = model.objects.all()
+        if c_code:
+            object_list = object_list.filter(c_code__icontains=c_code)
+        return object_list
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
+
+class CourseCreateView(CreateView):
+    # def __init__(self, *args, **kwargs):
+    #     super(CourseCreateView, self).__init__(*args, **kwargs)
+    #     if not self.instance:
+    #         self.fields.pop('c_num')
+    model = Courses
+    fields = ['c_code','c_name','duration','begin_date']
+    template_name = 'create_course.html'
+    success_url =  '/course'
+
+class CourseUpdateView(UpdateView):
+    model = Courses
+    fields = '__all__'
+    template_name = 'edit_course.html' 
+    success_url =  '/course'
+
+class CourseDeleteView(DeleteView):
+    model = Courses
+    fields = '__all__'
+    template_name = 'delete_course.html' 
+    success_url =  '/course'
