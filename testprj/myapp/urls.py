@@ -1,9 +1,12 @@
 from django.conf.urls import url 
 from django.urls import path
-
-from . import views 
+from django.contrib.auth import views as auth_views
+from . import views , user_views
 
 urlpatterns = [
+    url(r'^login$',auth_views.LoginView.as_view()),
+    url(r'^register$',view=user_views.register_user,name='register_user'),
+
     url(r'^$',views.index,name="index"),
     url(r'^one-one$',views.index_one2one,name="index_one2one"),
     url(r'^one-many$',views.index_one2many,name="index_one2many"),
