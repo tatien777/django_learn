@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 
 ##models internal resources 
 from .models import Student,Courses
-
+from django.contrib.auth.models import User
 
 class StudentForm(forms.ModelForm):
     class Meta:
@@ -31,3 +31,52 @@ class CourseForm(forms.ModelForm):
         fields = ['c_code','c_name','duration'
         ,'begin_date']
 
+class RegisterForm(forms.Form):
+    username = forms.CharField(label="user name",max_length=20,widget=forms.TextInput(attrs={'class':'form-control'}))
+    password = forms.CharField(label="password",max_length=20,widget=forms.PasswordInput())
+    # confirm_password = forms.CharField(label="confirm_password",max_length=20,widget=forms.PasswordInput())      
+    
+    email      = forms.EmailField(label="Email")
+    first_name = forms.CharField(label="first_name",max_length=20)
+    last_name = forms.CharField(label="last_name",max_length=20)
+
+    def clean_username(self):
+        # Kiem tra co trung user_name hay khong 
+        new_username = self.cleaned_data['username']
+        try:
+            User.objects.get(username=new_username)
+        except User.DoesNotExist:
+            return new_username
+        raise ValidationError(f"{new_username} da ton tai. vui long chon ten khac")
+
+    def clean_email(self):
+        # Kiem tra co trung email hay khong 
+        new_email = self.cleaned_data['email']
+        try:
+            User.objects.get(email=new_email)
+        except User.DoesNotExist:
+            return new_email
+        raise ValidationError(f"{new_email} da ton tai. vui long chon ten khac")
+    # def clean_confirm_password(self):
+    #     # Kiem tra co trung user_name hay khong 
+    #     password = self.cleaned_data["password"]
+    #     confirm_password = self.cleaned_data["confirm_password"]
+    #     if password != confirm_password:
+    #         return ValidationError("NHap lai mat khau khong trung khop")
+
+
+    def save_user(self):
+        User.objects.create_user(
+            username=self.cleaned_data['username'],
+            password=self.cleaned_data['password'],
+            # confirm_password=self.cleaned_data['confirm_password'],
+            email=self.cleaned_data['email'],
+            first_name=self.cleaned_data['first_name'],
+            last_name=self.cleaned_data['last_name'],
+        ) 
+
+class LoginForm(forms.Form):
+    username = forms.CharField(label="user name",max_length=20,widget=forms.TextInput(attrs={'class':'form-control'}))
+    password = forms.CharField(label="password",max_length=20,widget=forms.PasswordInput())
+    
+    

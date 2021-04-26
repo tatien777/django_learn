@@ -5,6 +5,11 @@ from django.http import HttpResponse,response
 from .models import Student, Place, Restaurant, Waiter, Article, Publication,Courses
 from .forms import StudentForm,CourseForm
 
+### authen required
+from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required 
+from django.utils.decorators import method_decorator
+
 # Create your views here.
 def index(request):
     # print(req.GET)
@@ -184,7 +189,7 @@ def all_students(request):
         }
         )
 
-
+@method_decorator(login_required(login_url="/login"),name="dispatch")
 class StudentListView(ListView):
     model = Student
     template_name = 'list_students.html'
@@ -196,6 +201,7 @@ class StudentListView(ListView):
 from django.views.generic.detail import DetailView
 from django.utils import timezone
 
+@method_decorator(login_required(login_url="/login"),name="dispatch")
 class StudentDetailView(DetailView):
     model = Student
     template_name = 'detail_students.html'
@@ -214,6 +220,7 @@ class StudentDetailView(DetailView):
 
 ## Create View ## 
 from django.views.generic.edit import CreateView
+@method_decorator(staff_member_required,name="dispatch")
 class StudentCreateView(CreateView):
     model = Student
     fields = '__all__'
@@ -222,7 +229,9 @@ class StudentCreateView(CreateView):
 
 
 ## Update View ## 
+
 from django.views.generic.edit import UpdateView
+@method_decorator(login_required(login_url="/login"),name="dispatch")
 class StudentUpdateView(UpdateView):
     model = Student
     fields = '__all__'
@@ -232,6 +241,7 @@ class StudentUpdateView(UpdateView):
 
 ## Delete View ## 
 from django.views.generic.edit import DeleteView
+@method_decorator(staff_member_required,name="dispatch")
 class StudentDeleteView(DeleteView):
     model = Student
     fields = '__all__'

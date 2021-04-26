@@ -13,6 +13,9 @@
   </head>
 
  <body>
+    {% if message %}
+        <h4 style="color:red;"> {{message}}</h4>
+    {% endif %}
     <form action="" method="post">
     {% csrf_token %}
     <div class="form-group">
