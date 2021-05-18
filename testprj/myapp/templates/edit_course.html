@@ -22,25 +22,25 @@
 </form> {% endcomment %}
 <div class="container"> 
   <div class="row"> 
-  <h1 >{{course.c_code}}</h1>
+  <h1 >{{object.c_code}}</h1>
     <form>
     
       <div class="form-group">
         <label for="">Course Name</label>
-        <input type="text" class="form-control" id="c_name"   value="{{course.c_name}}" >
+        <input type="text" class="form-control" id="c_name"   value="{{object.c_name}}" >
         {% comment %} <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> {% endcomment %}
       </div>
       <div class="form-group">
         <label for="">Duration</label>
-        <input type="number" class="form-control" id="duration" value="{{course.duration}}">
+        <input type="number" class="form-control" id="duration" value="{{object.duration}}">
       </div>
       <div class="form-group">
         <label for="">Registed Student</label>
-        <input type="text" class="form-control" id="c_num"  value="{{course.c_num}}" >
+        <input type="text" class="form-control" id="c_num"  value="{{object.c_num}}" >
       </div>
       <div class="form-group">
         <label for="">Begin of Date</label>
-        <input type="date" class="form-control" id="begin_date" value="{{course.begin_date}}" >
+        <input type="date" class="form-control" id="begin_date" value="{{object.begin_date}}" >
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
